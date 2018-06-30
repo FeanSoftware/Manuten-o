@@ -11,10 +11,15 @@ package Entidades;
  *
  * @author Julio Cesar
  */
-public class TreeNode extends javax.swing.tree.DefaultMutableTreeNode{
+public final class TreeNode extends javax.swing.tree.DefaultMutableTreeNode{
     int id ;
-    int Nome;
+    String Nome;
     int data;
+
+    TreeNode(String nome) {
+        super(nome);
+        setNome(nome);
+    }
 
     public int getId() {
         return id;
@@ -24,11 +29,11 @@ public class TreeNode extends javax.swing.tree.DefaultMutableTreeNode{
         this.id = id;
     }
 
-    public int getNome() {
+    public String getNome() {
         return Nome;
     }
 
-    public void setNome(int Nome) {
+    public void setNome(String Nome) {
         this.Nome = Nome;
     }
 

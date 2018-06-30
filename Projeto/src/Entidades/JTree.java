@@ -5,6 +5,7 @@
  */
 package Entidades;
 
+import Interface.Sistema.Nota;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,6 +23,7 @@ import javax.swing.tree.TreePath;
     import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,80 +33,89 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import javax.swing.ScrollPaneConstants;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 
 public class JTree extends  javax.swing.JPanel {
 
  
   private static javax.swing.JTree tree;
   
-  private void add(){
-      
-  }
+ 
 
-private DefaultMutableTreeNode Inserir(Setor setor, int i){
+private TreeNode Inserir(Setor setor, int i){
    
+    
    
     if(setor.getSubSetor() == null){
          
-       DefaultMutableTreeNode n = new DefaultMutableTreeNode(setor.getNome());
+       TreeNode sub = new TreeNode(setor.getNome());
        if(setor.getEquipamento() != null){
            setor.getEquipamento().forEach((e) -> {
-           n.add(new DefaultMutableTreeNode(e.getNome()));
+           TreeNode no =    new TreeNode(e.getNome());
+           no.setId(e.getId());
+           sub.add(no);
            
         });
        }
-       return n;
+       return sub;
     }else{
-        DefaultMutableTreeNode s = Inserir(setor.getSubSetor(), i+1);
-        return a;
+        TreeNode nivel = new TreeNode(setor.getNome());
+        nivel.setId(setor.getId());
+        for(Setor s : setor.getSubSetor()){
+            nivel.add(Inserir(s,i+1)); 
+            //nivel.setId(s.getId());
+        }
+        return nivel;
+        
+       
     }
       
     
-    return null;
+    
 }
-
+private String idIten(TreeNode parent){
+    System.out.println(parent.Nome);
+    if(parent.getParent() == null){
+        return parent.Nome;
+    }
+     return idIten((TreeNode) parent.getParent()); 
+}
   public JTree() {
 
-    DefaultMutableTreeNode top = new DefaultMutableTreeNode(Internacionalização.getNomeEmpresa());
-    List<Setor> list = banco.ResgatarDados.getAllSetores();
-    DefaultMutableTreeNode selecao = null;
-    
-    for(Setor s :list){
-        
-       selecao= Inserir(s,0);
-        top.add(selecao);
-             
-    }
-   
-    DefaultMutableTreeNode a = new DefaultMutableTreeNode("A");
-     DefaultMutableTreeNode b = new DefaultMutableTreeNode("B");
-     DefaultMutableTreeNode d = new DefaultMutableTreeNode("d");
-      DefaultMutableTreeNode q = new DefaultMutableTreeNode("q");
-    
-    
-    a.add(new DefaultMutableTreeNode("A1"));
-    a.add(new DefaultMutableTreeNode("A2"));
-    b.add(new DefaultMutableTreeNode("B1"));
-    b.add(new DefaultMutableTreeNode("B2"));
-    b.add(new DefaultMutableTreeNode("B3"));  
-    d.add(new DefaultMutableTreeNode("d"));
-    q.add(new DefaultMutableTreeNode("B1"));
-    q.add(new DefaultMutableTreeNode("B2"));
-    q.add(new DefaultMutableTreeNode("B3"));
-    a.add(b);
-    b.add(d);
-    d.add(q);
-    top.add(a);
+    TreeNode top = new TreeNode(Internacionalização.getNomeEmpresa());
+    List<Setor> list = banco.ResgatarDados.getAllSetores();   
+    list.forEach((s) -> {
+        top.add(Inserir(s,0));
+      });
     
 
-    
-    
     tree = new javax.swing.JTree(top);
 
     
+    //tree.setEditable(true);
+    tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+    tree.setShowsRootHandles(true);
+    
+   tree.addTreeSelectionListener(new TreeSelectionListener() { 
+						      public void valueChanged(TreeSelectionEvent e) { 
+						        TreePath path = e.getPath();
+                                                       
+                                                         TreeNode currentNode=(TreeNode) path.getLastPathComponent(); 
+                                                           //System.out.println(currentNode.getId());
+                                                            
+                                                        Nota n = new Nota(currentNode.getId());
+                                                        n.setVisible(true);
+						      } 
+						    });
   }
+  
+  
+  
+  
   
   public static javax.swing.JTree get(){
       return tree;

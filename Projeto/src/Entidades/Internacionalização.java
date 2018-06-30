@@ -10,7 +10,7 @@ package Entidades;
  * @author Julio Cesar
  */
 public class Internacionalização {
-    private static String nomeEmpresa;
+    private static String nomeEmpresa ="Nome empresa";
 
     public static String getNomeEmpresa() {
         return nomeEmpresa;

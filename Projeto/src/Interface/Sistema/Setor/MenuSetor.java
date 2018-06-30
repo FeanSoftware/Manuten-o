@@ -9,6 +9,8 @@ import java.awt.BorderLayout;
 import Entidades.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -55,6 +57,11 @@ model.reload(root);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTree1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTree1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTree1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -91,6 +98,27 @@ model.reload(root);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2 )
+                {
+                  
+
+                   
+    
+  
+            
+               
+                   
+                    
+                    
+                  
+                    
+                   
+                }
+        
+    }//GEN-LAST:event_jTree1MouseClicked
 
     /**
      * @param args the command line arguments

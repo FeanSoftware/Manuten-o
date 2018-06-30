@@ -21,6 +21,13 @@ public class Nota extends JFrame {
         centralizarComponente();
     }
 
+    public Nota(int string) {
+        initComponents();
+        centralizarComponente();
+        jTextPane1.setText(String.valueOf(string));
+        
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

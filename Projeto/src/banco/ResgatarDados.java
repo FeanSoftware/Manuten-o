@@ -38,6 +38,7 @@ public class ResgatarDados {
         List<Equipamentos> l = new LinkedList<>();
         for(int i = 0 ; i < 5;i++){
             e.setNome("Nome"+i);
+            e.setId(i);
             l.add(e);
             e = new Equipamentos();
         }
@@ -49,6 +50,7 @@ public class ResgatarDados {
         List<Setor> l = new LinkedList<>();
         for(int i = 0 ; i < 5;i++){
             e.setNome("Sub"+i);
+             e.setId(i);
             e.setEquipamento(getListE());
             l.add(e);
             e = new Setor();
@@ -62,6 +64,7 @@ public class ResgatarDados {
         List<Setor> l = new LinkedList<>();
         for(int i = 0 ; i < 5;i++){
             e.setNome("Setor"+i);
+             e.setId(i);
             e.setSubSetor(getListsub());
             l.add(e);
             e = new Setor();
