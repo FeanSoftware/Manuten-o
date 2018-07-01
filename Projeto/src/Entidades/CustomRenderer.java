@@ -25,7 +25,7 @@ public class CustomRenderer extends DefaultTreeCellRenderer{
       TreeNode node = (TreeNode) value;
       // System.out.println(node.getColor() + node.getNome());
       setForeground(node.getColor());
-        if (node.getColor() == Color.RED) {    
+        if (node.getColor() == Internacionalização.getCorAtencao()) {    
             Atrasados.addAtrasado(node.getId());
         }
      

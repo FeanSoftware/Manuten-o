@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -11,8 +12,19 @@ import java.net.URL;
  * @author Julio Cesar
  */
 public class JPanel extends javax.swing.JPanel {
+    private static Image load(String url) {
+        try {
+            final Toolkit tk = Toolkit.getDefaultToolkit();
+            final URL path = new URL("file:///" + url); // Any URL would work here
+            final Image img = tk.createImage(path);
+            tk.prepareImage(img, 0, 0, null);
+            return img;
+        } catch (MalformedURLException e) {
+            return null;
+        }
+    }
 
-    private Image img = load("C://a.jpg");
+    private Image img = load(Internacionalização.getImagenFundo());
     private int x = 0;
     private int y = 0;
 
@@ -24,27 +36,14 @@ public class JPanel extends javax.swing.JPanel {
         } catch (Exception e) {
 
         }
-        
 
         // paintComponents();
     }
+
     public JPanel() {
-    
-       
+
     }
 
-    private static Image load(String url) {
-        try {
-            final Toolkit tk = Toolkit.getDefaultToolkit();
-            final URL path = new URL("file:///" + url); // Any URL would work here
-            final Image img = tk.createImage(path);
-            tk.prepareImage(img, 0, 0, null);
-            return img;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     @Override
     public void paintComponent(Graphics g) {

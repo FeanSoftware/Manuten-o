@@ -4,13 +4,21 @@ package banco;
 //Classes necessárias para uso de Banco de dados //
 
 import Entidades.ConfigBanco;
+import Interface.Configuracoes.ConfigurarBanco;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 
 
 //Início da classe de conexão//
 public class ConexaoMySQL {
-
+    private static ConfigBanco config ;
     public static String status = "Não conectou...";
    private static String driverName;
    private static         String serverName ;
@@ -21,9 +29,36 @@ public class ConexaoMySQL {
      private static      String username;        
      private static       String password;
 
-    
-    public ConexaoMySQL() {
+    private static ConfigBanco getConfig(String path, String nomeArquivo){
+        config = null;
 
+       ObjectInputStream input = null ;
+        try{ input = new ObjectInputStream(new FileInputStream(path+"/"+nomeArquivo)) ;
+          
+            while (true) {
+                config = (ConfigBanco) input.readObject();
+                
+            }
+        } catch (EOFException endOfFileException) {
+            return config;
+        } catch (ClassNotFoundException classNotFoundException) {
+             JOptionPane.showMessageDialog(null,"Unable to create object.");
+        } catch (IOException ex) {
+            
+            JOptionPane.showMessageDialog(null,"Erro ao abrir arquivo \n" + path + "\n" + ex.getMessage());
+        }
+        try {
+            input.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ConfigurarBanco.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       
+        return config;
+    }
+    public ConexaoMySQL() {
+       
+        
     }
     public ConexaoMySQL(ConfigBanco config){
          driverName = config.getDriverName();
@@ -44,11 +79,28 @@ public class ConexaoMySQL {
     
     
     
+private static void aplicaConfig(){
+     driverName = config.getDriverName();
 
+            
+
+// Configurando a nossa conexão com um banco de dados//
+          serverName = config.getServerName();    //caminho do servidor do BD
+
+        mydatabase = config.getMydatabase();        //nome do seu banco de dados
+
+           url = config.getUrl() + serverName  + mydatabase;
+
+         username = config.getUsername();        //nome de um usuário de seu BD      
+
+          password = config.getPassword(); 
+}
 //Método de Conexão//
     public static java.sql.Connection getConexaoMySQL() {
+        getConfig(System.getProperty("user.dir"),"ConfigBanco.bin");
+        aplicaConfig();
         Connection connection = null;          //atributo do tipo Connection
-        System.out.println(url);
+      //  System.out.println(url);
         
 
         try {

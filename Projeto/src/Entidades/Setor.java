@@ -1,4 +1,3 @@
-
 package Entidades;
 
 import java.awt.Color;
@@ -9,10 +8,11 @@ import java.util.List;
  * @author Julio Cesar
  */
 public class Setor {
+
     private int id;
     private String Nome;
     private Color cor;
-    private  List<Equipamentos> equipamento;
+    private List<Equipamentos> equipamento;
     private List<Setor> subSetor;
 
     public Color getCor() {
@@ -54,9 +54,10 @@ public class Setor {
     public void setSubSetor(List<Setor> subSetor) {
         this.subSetor = subSetor;
     }
-    public void addSubsetor(Setor subSetor){
+
+    public void addSubsetor(Setor subSetor) {
         this.subSetor.add(subSetor);
-        
+
     }
-   
+
 }

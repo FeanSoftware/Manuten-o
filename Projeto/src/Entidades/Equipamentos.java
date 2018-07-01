@@ -6,8 +6,10 @@
 package Entidades;
 
 import java.awt.Color;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -52,24 +54,24 @@ public class Equipamentos {
 
     public void setDataUltimaExpesao(String dataUltimaExpesao) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Calendar data1 = Calendar.getInstance();
-        Calendar data2 = Calendar.getInstance();
-        
-        try {
-            data1.setTime(sdf.parse(dataUltimaExpesao));
-           // System.out.println(sdf.parse(dataUltimaExpesao));
-            data2.setTime(sdf.parse(sdf.format(new Date())));
-        } catch (java.text.ParseException e) {
-        }
-        int dias = data1.get(Calendar.DAY_OF_YEAR) - data2.get(Calendar.DAY_OF_YEAR);
-        
-        System.out.println("Entidades.Equipamentos.setDataUltimaExpesao()"+dias);
-        if (dias > 0) {
-            cor = Color.RED;
-          // System.out.println(String.valueOf(dias));
+          LocalDate hoje = LocalDate.now();
+        // Cria um Objeto LocalDate com a data 26/09/2020.
+     //   System.out.println(nome+dataUltimaExpesao);
+        String p = dataUltimaExpesao.replace("/","-");
+      String[] s = p.split("-");
+       // System.out.println(s[0] );
+      //  System.out.println(s[1] );
+      //  System.out.println(s[2] );
+      
+      LocalDate outraData = LocalDate.of(Integer.parseInt(s[0]),Integer.parseInt( s[1]),Integer.parseInt( s[2]));  
+        // Calcula a diferença de dias entre as duas datas
+        long diferencaEmDias = ChronoUnit.DAYS.between(outraData, hoje);   
+      //  System.out.println(diferencaEmDias);
+        if (diferencaEmDias  > 18) {
+            cor = Internacionalização.getCorAtencao();
+            System.out.println(diferencaEmDias);
         } else {
-            cor = Color.BLACK;
+            cor = Internacionalização.getCorPadrao();
         }
         this.dataUltimaExpesao = dataUltimaExpesao;
     }
