@@ -21,25 +21,18 @@ public class MenuSetor extends javax.swing.JFrame {
     /**
      * Creates new form MenuSetor
      */
-    
     public MenuSetor() {
-       initComponents();
-        
-     
-    
+        initComponents();
 
-    
-    
-   
-    /*
+        /*
     DefaultTreeModel model = (DefaultTreeModel)jTree1.getModel();
 DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
 model.insertNodeInto(top, root, root.getChildCount() -1);
 //root.add(new DefaultMutableTreeNode(top));
 model.reload(root);
-*/
-    //jTree1.setVisible(true);
-     initComponents();
+         */
+        //jTree1.setVisible(true);
+        //initComponents();
     }
 
     /**
@@ -54,6 +47,9 @@ model.reload(root);
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new JTree().get();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,17 +65,21 @@ model.reload(root);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(806, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 661, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(115, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
         );
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,23 +101,10 @@ model.reload(root);
 
     private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2 )
-                {
-                  
+        if (evt.getClickCount() == 2) {
 
-                   
-    
-  
-            
-               
-                   
-                    
-                    
-                  
-                    
-                   
-                }
-        
+        }
+
     }//GEN-LAST:event_jTree1MouseClicked
 
     /**
@@ -154,9 +141,11 @@ model.reload(root);
             }
         });
     }
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree jTree1;

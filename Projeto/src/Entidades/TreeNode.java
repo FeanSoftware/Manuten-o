@@ -7,6 +7,11 @@ package Entidades;
 
 
 
+import java.awt.Color;
+
+
+
+
 /**
  *
  * @author Julio Cesar
@@ -14,11 +19,21 @@ package Entidades;
 public final class TreeNode extends javax.swing.tree.DefaultMutableTreeNode{
     int id ;
     String Nome;
-    int data;
+    String data;
+    Color Color;
+
+    public Color getColor() {
+        return Color;
+    }
+
+    public void setColor(Color Color) {
+        this.Color = Color;
+    }
 
     TreeNode(String nome) {
         super(nome);
         setNome(nome);
+       
     }
 
     public int getId() {
@@ -37,11 +52,11 @@ public final class TreeNode extends javax.swing.tree.DefaultMutableTreeNode{
         this.Nome = Nome;
     }
 
-    public int getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(int data) {
+    public void setData(String data) {
         this.data = data;
     }
     

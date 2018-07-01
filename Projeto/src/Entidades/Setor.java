@@ -1,6 +1,7 @@
 
 package Entidades;
 
+import java.awt.Color;
 import java.util.List;
 
 /**
@@ -10,8 +11,17 @@ import java.util.List;
 public class Setor {
     private int id;
     private String Nome;
-   private  List<Equipamentos> equipamento;
-   private List<Setor> subSetor;
+    private Color cor;
+    private  List<Equipamentos> equipamento;
+    private List<Setor> subSetor;
+
+    public Color getCor() {
+        return cor;
+    }
+
+    public void setCor(Color cor) {
+        this.cor = cor;
+    }
 
     public int getId() {
         return id;
@@ -43,6 +53,10 @@ public class Setor {
 
     public void setSubSetor(List<Setor> subSetor) {
         this.subSetor = subSetor;
+    }
+    public void addSubsetor(Setor subSetor){
+        this.subSetor.add(subSetor);
+        
     }
    
 }
