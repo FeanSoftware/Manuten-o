@@ -12,8 +12,17 @@ public class Setor {
     private int id;
     private String Nome;
     private Color cor;
-    private List<Equipamentos> equipamento;
+    private List<Equipamento> equipamento;
     private List<Setor> subSetor;
+    private String CNPJ;
+
+    public String getCNPJ() {
+        return CNPJ;
+    }
+
+    public void setCNPJ(String CNPJ) {
+        this.CNPJ = CNPJ;
+    }
 
     public Color getCor() {
         return cor;
@@ -39,12 +48,16 @@ public class Setor {
         this.Nome = Nome;
     }
 
-    public List<Equipamentos> getEquipamento() {
+    public List<Equipamento> getEquipamento() {
         return equipamento;
     }
 
-    public void setEquipamento(List<Equipamentos> equipamento) {
-        this.equipamento = equipamento;
+    public void setEquipamento(List<Equipamento> equipamento) {
+         this.equipamento = equipamento;
+       
+
+       
+
     }
 
     public List<Setor> getSubSetor() {
@@ -52,7 +65,9 @@ public class Setor {
     }
 
     public void setSubSetor(List<Setor> subSetor) {
+        
         this.subSetor = subSetor;
+
     }
 
     public void addSubsetor(Setor subSetor) {
@@ -60,4 +75,11 @@ public class Setor {
 
     }
 
+    @Override
+    public String toString() {
+        return Nome;
+    }
+
+  
+    
 }

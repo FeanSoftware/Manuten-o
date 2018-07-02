@@ -2,12 +2,15 @@ package banco;
 
 
 
+import Entidades.Equipamento;
+import Entidades.Setor;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class InserirDados {
 
@@ -29,7 +32,7 @@ public class InserirDados {
             }
 
         } catch (SQLException ex) {
-
+System.out.println(ex.getMessage());
         }
 
         ConexaoMySQL.closeAll(con, pstmt, rs);
@@ -66,10 +69,29 @@ public class InserirDados {
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
- 
+            
         }
         ConexaoMySQL.closeAll(con, pstmt, rs);
 
+    }
+
+    public static void inserirEquipamento(Equipamento e, int idLocal,int idEmpresa) {
+        String sql = "equipamentos (nomeEquipamento, refenciaLocal, dataUltimaInspecao, idEmpresa) "
+                + "VALUES ('"+e.getNome()+"','"+idLocal+"','"+e.getDataUltimaExpesao()+"','"+idEmpresa+"');";
+        
+        int idEquipamento = iserirDados(sql);
+        sql = "equipamento_local(idEquipamento, idLocal, idEmpresa) VALUES ('"+idEquipamento+"','"+idLocal+"','"+idEmpresa+"');";
+        iserirDados(sql);
+        
+        JOptionPane.showMessageDialog(null, "Equipamento "+idEquipamento+" Salvo com sucesso","Salvo com sucesso",JOptionPane.OK_OPTION);
+        
+        
+    }
+
+    public static void inserirSetor(Setor e, int id,int idEmpresa) {
+       String sql = "local(referenciaLocal, nomeLocal, idEmpresa) VALUES ('"+id+"','"+e.getNome()+"','"+idEmpresa+"');";
+       int idTranzaçao = iserirDados(sql);
+       JOptionPane.showMessageDialog(null, "Setor "+idTranzaçao+" Salvo com sucesso","Salvo com sucesso",JOptionPane.OK_OPTION);
     }
 
    

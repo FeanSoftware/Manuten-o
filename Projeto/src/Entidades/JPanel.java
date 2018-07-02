@@ -41,7 +41,7 @@ public class JPanel extends javax.swing.JPanel {
     }
 
     public JPanel() {
-
+        super();
     }
 
 
@@ -54,7 +54,7 @@ public class JPanel extends javax.swing.JPanel {
         gr.dispose();
     }
 
-    public void alterarImagem(String fundo) {
+    public  void alterarImagem(String fundo) {
         this.img = load(fundo);
         // this.img = novaimagem;
         this.revalidate(); // não lembro se repaint() serve aqui

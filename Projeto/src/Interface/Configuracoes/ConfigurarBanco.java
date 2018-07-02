@@ -395,20 +395,5 @@ public class ConfigurarBanco extends JFrame {
         jLabelStatusBanco.setText(c.statusConection());
         c.closeAll(con, null, null);
     }
-    private static void copiandoArquivo(String saidaCaminho, String inicio, String i) {
-        //funçao responsavel por copiar os arquivos da pasta original e tranfirila para a pasta padrao do jogo
-        Path novo = Paths.get(saidaCaminho);
-        Path cAbsoluto = Paths.get(inicio);
-        try {
-            Files.createDirectories(novo);
-            if (Files.isDirectory(novo)) {
-                Files.copy(cAbsoluto, Paths.get(novo + "\\" + i), StandardCopyOption.REPLACE_EXISTING);
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Diretório Não Criado", "Criação do Novo Diretório", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (IOException | HeadlessException ex) {
-            JOptionPane.showMessageDialog(null, "Algo deu errado desculpa", "Criação do Novo Diretório", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
+    
 }

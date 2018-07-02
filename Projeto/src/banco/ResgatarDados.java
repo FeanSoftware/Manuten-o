@@ -1,6 +1,6 @@
 package banco;
 
-import Entidades.Equipamentos;
+import Entidades.Equipamento;
 import Entidades.Setor;
 import java.awt.Color;
 import java.sql.PreparedStatement;
@@ -30,19 +30,19 @@ public class ResgatarDados {
         return wrs;
     }
 
-    private static List<Equipamentos> getListE(int idLocal) {
-        Equipamentos e;
-        List<Equipamentos> l = new LinkedList<>();
+    private static List<Equipamento> getListE(int idLocal) {
+        Equipamento e;
+        List<Equipamento> l = new LinkedList<>();
         CachedRowSet rs = null;
-        String sql = "* FROM `equipamentos` WHERE idLocal = " + idLocal + ";";
-
+        String sql = "* FROM `equipamentos` WHERE refenciaLocal = " + idLocal + ";";
+         Color c;
         try {
             
             rs = ResgatarDado(sql);
            // System.out.println(sql + rs.getRow());
             while (rs.next()) {
                 
-                e = new Equipamentos();
+                e = new Equipamento();
                 e.setNome(rs.getString("nomeEquipamento"));
                 e.setId(rs.getInt("idEquipamentos"));
                 e.setDataUltimaExpesao(String.valueOf(rs.getDate("dataUltimaInspecao")));
@@ -55,12 +55,12 @@ public class ResgatarDados {
         return l;
     }
 
-    private static List<Setor> getListsub(int idSetor) {
+    private static List<Setor> getListsub(int idSetor,int idEmpresa) {
         Setor e = new Setor();
         List<Setor> l = new LinkedList<>();
         CachedRowSet rs = null;
-        String sql = "* FROM `local` WHERE `referenciaLocal` = "+idSetor+";";
-        Color c = Color.BLACK;
+        String sql = "* FROM `local` WHERE `referenciaLocal` = "+idSetor+" AND idEmpresa = "+idEmpresa+";";
+        Color c = null;
         try {
             rs = ResgatarDado(sql);
 
@@ -68,16 +68,24 @@ public class ResgatarDados {
                 e.setNome(rs.getString("nomeLocal"));
                 e.setId(rs.getInt("idLocal"));
                 e.setEquipamento(getListE(rs.getInt("idLocal")));
-                e.setSubSetor(getListsub(rs.getInt("idLocal")));
-                for (Equipamentos eq : e.getEquipamento()) {
-                    if (eq.getCor() == (Color.RED)) {
-                        //System.err.println(eq.getCor() + eq.getNome());
-                        c = eq.getCor();
+                e.setSubSetor(getListsub(rs.getInt("idLocal"),idEmpresa));
+               for (Equipamento eq : e.getEquipamento()) {
+                   // System.err.println(eq.getCor() + eq.getNome());
+                   if (eq.getCor() == Color.RED) {
+                       // System.err.println(eq.getCor() + eq.getNome());
+                       e.setCor(Color.RED);
 
                     }
-
                 }
-                e.setCor(c);
+                for (Setor eq : e.getSubSetor()) {
+                     //System.out.println(eq.getCor() + eq.getNome());
+                   if (eq.getCor() == Color.RED) {
+                     // System.out.println(eq.getCor() + eq.getNome());
+                        e.setCor(Color.RED);
+
+                    }
+                }
+               
                 l.add(e);
                 e = new Setor();
             }
@@ -134,9 +142,63 @@ public class ResgatarDados {
         return l;
     }
 */
-    public static List<Setor> getAllSetores() {
-        return getListsub(0);
+    public static List<Setor> getAllSetoresEquipamentos(int id) {
+        
+        
+        return getListsub(0,id);
 
+    }
+
+    public static List<Setor> getAllEmpresas() {
+         Setor e = new Setor();
+        String sql = "* FROM empresa ;";
+        List<Setor> l = new LinkedList<>();
+        CachedRowSet rs = null;
+        try {
+            rs = ResgatarDado(sql);
+            while (rs.next()) {
+                e.setNome(rs.getString("nomeEmpresa"));
+                e.setId(rs.getInt("idEmpresa"));
+                e.setCNPJ("cnpjEmpresa");
+               // e.setEquipamento(getListE(rs.getInt("idLocal")));
+               // e.setSubSetor(getListsub(rs.getInt("idLocal")));
+
+                
+                l.add(e);
+                e = new Setor();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ResgatarDados.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return l;
+    }
+
+    public static List<Setor> getAllSetores(int id) {
+        Setor e = new Setor();
+        String sql = "* FROM `local` WHERE idEmpresa = "+id+";";
+        List<Setor> l = new LinkedList<>();
+        CachedRowSet rs = null;
+        try {
+            rs = ResgatarDado(sql);
+            while (rs.next()) {
+                e.setNome(rs.getString("nomeLocal"));
+                e.setId(rs.getInt("idLocal"));
+               // e.setEquipamento(getListE(rs.getInt("idLocal")));
+               // e.setSubSetor(getListsub(rs.getInt("idLocal")));
+
+                
+                l.add(e);
+                e = new Setor();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ResgatarDados.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return l;
+       
     }
 
 }
