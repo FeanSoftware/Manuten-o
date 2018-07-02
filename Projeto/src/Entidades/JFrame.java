@@ -17,7 +17,7 @@ public class JFrame extends javax.swing.JFrame {
 
 
     public JFrame() {
-
+        centralizarComponente();
     }
 
     public JFrame(String urlImg) throws IOException {

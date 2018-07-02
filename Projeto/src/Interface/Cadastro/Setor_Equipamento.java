@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  *
  * @author Julio Cesar
  */
-public class Setor_Equipamento extends javax.swing.JFrame {
+public class Setor_Equipamento extends JFrame {
 
     /**
      * Creates new form Setor_Equipamento
@@ -36,7 +36,7 @@ public class Setor_Equipamento extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new JPanel();
         jComboBoxSetor = new javax.swing.JComboBox<>();
         jTextNome = new javax.swing.JTextField();
         jRadioButtonEquipamento = new javax.swing.JRadioButton();
@@ -45,7 +45,7 @@ public class Setor_Equipamento extends javax.swing.JFrame {
         jButtonCancelar = new javax.swing.JButton();
         jComboBoxEmpresa = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jComboBoxSetor.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Setor", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jComboBoxSetor.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
@@ -79,6 +79,11 @@ public class Setor_Equipamento extends javax.swing.JFrame {
         });
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         jComboBoxEmpresa.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Empresa", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jComboBoxEmpresa.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
@@ -253,6 +258,13 @@ public class Setor_Equipamento extends javax.swing.JFrame {
         
          
     }//GEN-LAST:event_jComboBoxEmpresaPopupMenuWillBecomeVisible
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        // TODO add your handling code here:
+        if(JOptionPane.showConfirmDialog(null, "Deseja sair","Deseja sair",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     /**
      * @param args the command line arguments

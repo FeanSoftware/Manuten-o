@@ -5,7 +5,11 @@
  */
 package Entidades;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,7 +23,8 @@ public class Nota {
     private String nomeResponsavelManutençao;
     private Equipamento equipamento;
     private String UrlImagem;
-
+    
+   
     public String getInformacoes() {
         return informacoes;
     }
@@ -33,7 +38,7 @@ public class Nota {
     }
 
     public void setDateInspecao(Date dateInspecao) {
-        this.dateInspecao = dateInspecao;
+        this.dateInspecao =dateInspecao;
     }
 
     public Date getDateOcorencia() {

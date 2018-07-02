@@ -14,8 +14,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.util.converter.LocalDateStringConverter;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -30,6 +37,7 @@ public class NotaInspesao extends JFrame {
 
     private Equipamento equipamento;
     private String UrlMidia;
+
     public NotaInspesao() {
         initComponents();
         centralizarComponente();
@@ -37,10 +45,10 @@ public class NotaInspesao extends JFrame {
 
     public NotaInspesao(Equipamento equipamento) {
         initComponents();
-        this.equipamento =equipamento;
-        centralizarComponente();      
+        this.equipamento = equipamento;
+        centralizarComponente();
     }
-    
+
     private static void copiandoArquivo(String saidaCaminho, String inicio, String i) {
         //funçao responsavel por copiar os arquivos da pasta original e tranfirila para a pasta padrao do jogo
         Path novo = Paths.get(saidaCaminho);
@@ -57,7 +65,8 @@ public class NotaInspesao extends JFrame {
             JOptionPane.showMessageDialog(null, "Algo deu errado desculpa", "Criação do Novo Diretório", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    private void getImagem(){
+
+    private void getImagem() {
         JFileChooser fc = new JFileChooser();
         BufferedImage imagem = null;
         //  String user;
@@ -66,40 +75,62 @@ public class NotaInspesao extends JFrame {
         if (valido == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             this.UrlMidia = "" + file + "";
-            int largura =jLabelImagen.getWidth(), altura =  jLabelImagen.getHeight();
+            int largura = jLabelImagen.getWidth(), altura = jLabelImagen.getHeight();
             try {
                 imagem = ImageIO.read(new File(this.UrlMidia));
                 Icon icon = new ImageIcon(imagem.getScaledInstance(largura, altura,
-                    java.awt.Image.SCALE_SMOOTH));
-           this.jLabelImagen.setIcon(icon);
+                        java.awt.Image.SCALE_SMOOTH));
+                this.jLabelImagen.setIcon(icon);
             } catch (IOException ex) {
                 Logger.getLogger(NotaInspesao.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-          
-            
+
         }
     }
-    
-    private Nota getNewNota(){
-       Nota nota = new Nota();
-       nota.setDateInspecao(jDateChooserManutencao.getDate());
-       nota.setDateOcorencia(jDateChooserOcorrencia.getDate());
-       nota.setEquipamento(equipamento);
-       nota.setInformacoes(jTextPaneInformacoes.getText());
-       nota.setNomeResponsavel(jTextFieldResponsavel.getText());
-       nota.setNomeResponsavelManutençao(jTextFieldResponsavelManutençao.getText());
-       nota.setUrlImagem(UrlMidia);
-       
-       
-       return nota;
+
+    private Nota getNewNota() {
+        // DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        Nota nota = new Nota();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+        // System.out.println(formato.format(jDateChooserManutencao.getDate()));
+        nota.setDateInspecao(jDateChooserManutencao.getDate());
+        nota.setDateOcorencia(jDateChooserOcorrencia.getDate());
+        nota.setEquipamento(equipamento);
+        nota.setInformacoes(jTextPaneInformacoes.getText());
+        nota.setNomeResponsavel(jTextFieldResponsavel.getText());
+        nota.setNomeResponsavelManutençao(jTextFieldResponsavelManutençao.getText());
+        nota.setUrlImagem(UrlMidia);
+
+        //LocalDate d = LocalDate.parse(formato.format(nota.getDateInspecao()));
+        if (nota.getDateOcorencia() != null && nota.getDateInspecao() != null) {
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDate data = LocalDate.parse(formato.format(nota.getDateOcorencia()), format);
+            LocalDate data2 = LocalDate.parse(formato.format(nota.getDateInspecao()), format);
+
+            if (ChronoUnit.DAYS.between(data, data2) > -1) {
+
+                if (!jTextFieldResponsavel.getText().equals("") && !jTextFieldResponsavelManutençao.getText().equals("") && !jTextPaneInformacoes.getText().equals("")) {
+                    if (UrlMidia != null) {
+                        return nota;
+                    } else {
+                        if (JOptionPane.showConfirmDialog(null, "Voce nao upou uma midia\nDeseja continuar", "Erro", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            return nota;
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Verifique os campos", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Verifique as datas", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Verifique as datas", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        return nota;
     }
-    
-    
-    
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -149,6 +180,11 @@ public class NotaInspesao extends JFrame {
         jScrollPane2.setViewportView(jTextPaneInformacoes);
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jButtonSair.setText("Sair");
         jButtonSair.addActionListener(new java.awt.event.ActionListener() {
@@ -246,16 +282,22 @@ public class NotaInspesao extends JFrame {
 
     private void jButtonUpMidiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpMidiaActionPerformed
         getImagem();        // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jButtonUpMidiaActionPerformed
 
     private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
         // TODO add your handling code here:
-        
-        if(JOptionPane.showConfirmDialog(null, "Deseja sair do equipamento: "+equipamento.getNome(),"Deseja sair",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+
+        if (JOptionPane.showConfirmDialog(null, "Deseja sair do equipamento: " + equipamento.getNome(), "Deseja sair", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             this.dispose();
         }
     }//GEN-LAST:event_jButtonSairActionPerformed
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        // TODO add your handling code here:
+
+        getNewNota();
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     /**
      * @param args the command line arguments
