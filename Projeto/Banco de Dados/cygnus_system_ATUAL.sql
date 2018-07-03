@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 02-Jul-2018 às 04:28
+-- Generation Time: 03-Jul-2018 às 03:51
 -- Versão do servidor: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -117,7 +117,24 @@ INSERT INTO `equipamentos` (`idEquipamentos`, `nomeEquipamento`, `refenciaLocal`
 (53, 'TERNO SECADOR 1', 26, '2018-06-30', 1),
 (54, 'TERNO SECADOR 2', 26, '2018-06-30', 1),
 (55, 'TERNO SECADOR 3', 26, '2018-06-30', 1),
-(56, 'TERNO SECADOR 4', 26, '2018-06-30', 1);
+(56, 'TERNO SECADOR 4', 26, '2018-06-30', 1),
+(57, 'TQ CONDENSADO EXTERNO', 27, '2018-06-30', 1),
+(58, 'COMPRESSOR 1', 30, '2018-06-30', 1),
+(59, 'COMPRESSOR 2', 30, '2018-06-30', 1),
+(60, 'COMPRESSOR 3', 30, '2018-06-30', 1),
+(61, 'ABERKO N/FABR. 06-3241', 31, '2018-06-30', 1),
+(62, 'ABERKO N/FABR. 06-3242', 31, '2018-06-30', 1),
+(63, 'INGERSOLL N/S RT 14.339', 31, '2018-06-30', 1),
+(64, 'COMPRESSOR 4', 33, '2018-06-30', 1),
+(65, 'COMPRESSOR 5', 33, '2018-06-30', 1),
+(66, 'CHICAGO (CCM) N/S 131221', 34, '2018-06-30', 1),
+(67, 'CHICAGO (TORRE) N/S 131216', 36, '2018-06-30', 1),
+(68, 'CHICAGO (PROC.) N/S 131217', 36, '2018-06-30', 1),
+(69, 'ABERKO (EVAP.) N/FABR. 8617-1', 34, '2018-06-30', 1),
+(70, 'ABERKO (FERM.) N/FABR. 8617-2', 34, '2018-06-30', 1),
+(71, 'ABERKO (FÁBRICA) N/FAB. 8617-3', 34, '2018-06-30', 1),
+(72, 'CHECAR FERMENTAÇÃO', 34, '2018-06-30', 1),
+(73, 'COMPRESSOR DE AR SCHULZ', 37, '2018-06-30', 1);
 
 -- --------------------------------------------------------
 
@@ -191,7 +208,24 @@ INSERT INTO `equipamento_local` (`idEquipamento`, `idLocal`, `idEmpresa`) VALUES
 (53, 26, 1),
 (54, 26, 1),
 (55, 26, 1),
-(56, 26, 1);
+(56, 26, 1),
+(57, 27, 1),
+(58, 30, 1),
+(59, 30, 1),
+(60, 30, 1),
+(61, 31, 1),
+(62, 31, 1),
+(63, 31, 1),
+(64, 33, 1),
+(65, 33, 1),
+(66, 34, 1),
+(67, 36, 1),
+(68, 36, 1),
+(69, 34, 1),
+(70, 34, 1),
+(71, 34, 1),
+(72, 34, 1),
+(73, 37, 1);
 
 -- --------------------------------------------------------
 
@@ -201,6 +235,11 @@ INSERT INTO `equipamento_local` (`idEquipamento`, `idLocal`, `idEmpresa`) VALUES
 
 CREATE TABLE `inspecao` (
   `idInspecao` int(11) NOT NULL,
+  `idEquipamento` int(11) NOT NULL,
+  `dataInspecao` date DEFAULT NULL,
+  `dataEfetuadaInspecao` date NOT NULL,
+  `motivoInspecao` text NOT NULL,
+  `idUsuario` int(11) NOT NULL,
   `idEmpresa` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -213,7 +252,7 @@ CREATE TABLE `inspecao` (
 CREATE TABLE `local` (
   `idLocal` int(11) NOT NULL,
   `referenciaLocal` int(11) DEFAULT NULL,
-  `nomeLocal` varchar(20) NOT NULL,
+  `nomeLocal` varchar(30) NOT NULL,
   `idEmpresa` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -247,7 +286,18 @@ INSERT INTO `local` (`idLocal`, `referenciaLocal`, `nomeLocal`, `idEmpresa`) VAL
 (23, 20, 'TERNO SECADOR', 1),
 (24, 18, 'GARRAFAS', 1),
 (25, 24, 'TERNO DESAGUADOR', 1),
-(26, 24, 'TERNO SECADOR', 1);
+(26, 24, 'TERNO SECADOR', 1),
+(27, 0, 'GERAÇÃO DE ENERGIA', 1),
+(28, 0, 'INSTRUMENTAÇÃO', 1),
+(29, 28, 'CENTRAL AR CASA DE FORCA', 1),
+(30, 29, 'SEPARADOR AR/ÓLEO', 1),
+(31, 29, 'SEPARADOR DE CONDENSADOS', 1),
+(32, 28, 'CENTRAL AR UPG', 1),
+(33, 32, 'SEPARADOR AR/ÓLEO', 1),
+(34, 32, 'SEPARADOR DE CONDENSADOS', 1),
+(35, 28, 'UPG', 1),
+(36, 35, 'SEPARADOR DE CONDENSADOS', 1),
+(37, 28, 'FÁBRICA AÇÚCAR', 1);
 
 -- --------------------------------------------------------
 
@@ -355,7 +405,7 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT for table `equipamentos`
 --
 ALTER TABLE `equipamentos`
-  MODIFY `idEquipamentos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `idEquipamentos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `inspecao`
@@ -367,7 +417,7 @@ ALTER TABLE `inspecao`
 -- AUTO_INCREMENT for table `local`
 --
 ALTER TABLE `local`
-  MODIFY `idLocal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `idLocal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `tipousuario`
