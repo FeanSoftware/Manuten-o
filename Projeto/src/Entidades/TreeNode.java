@@ -6,6 +6,7 @@
 package Entidades;
 
 import java.awt.Color;
+import java.util.Date;
 
 /**
  *
@@ -15,7 +16,7 @@ public final class TreeNode extends javax.swing.tree.DefaultMutableTreeNode {
 
     int id;
     String Nome;
-    String data;
+    Date data;
     Color Color;
     int Tipo;
     private Equipamento e;
@@ -66,11 +67,11 @@ public final class TreeNode extends javax.swing.tree.DefaultMutableTreeNode {
         this.Nome = Nome;
     }
 
-    public String getData() {
+    public Date getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Date data) {
         this.data = data;
     }
 

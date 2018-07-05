@@ -21,8 +21,18 @@ public class Equipamento {
 
     private int id;
     private String nome;
-    private String dataUltimaExpesao;
+    private Date dataUltimaExpesao;
     private Color cor;
+    private Setor Empresa;
+
+    public Setor getEmpresa() {
+        return Empresa;
+    }
+
+    public void setEmpresa(Setor Empresa) {
+        this.Empresa = Empresa;
+    }
+    
 
     public Color getCor() {
         return cor;
@@ -48,16 +58,16 @@ public class Equipamento {
         this.nome = nome;
     }
 
-    public String getDataUltimaExpesao() {
+    public Date getDataUltimaExpesao() {
         return dataUltimaExpesao;
     }
 
-    public void setDataUltimaExpesao(String dataUltimaExpesao) {
+    public void setDataUltimaExpesao(Date dataUltimaExpesao) {
 
           LocalDate hoje = LocalDate.now();
         // Cria um Objeto LocalDate com a data 26/09/2020.
      //   System.out.println(nome+dataUltimaExpesao);
-        String p = dataUltimaExpesao.replace("/","-");
+        String p = Internacionalização.formataDataUSA(dataUltimaExpesao).replace("/","-");
       String[] s = p.split("-");
        // System.out.println(s[0] );
       //  System.out.println(s[1] );

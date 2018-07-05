@@ -8,6 +8,7 @@ package Interface.Cadastro;
 //import Entidades.JComboBox;
 import Entidades.*;
 import banco.InserirDados;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import javax.swing.Icon;
@@ -24,6 +25,7 @@ public class Setor_Equipamento extends JFrame {
      */
     public Setor_Equipamento() {
         initComponents();
+        centralizarComponente();
     }
 
     /**
@@ -185,7 +187,7 @@ public class Setor_Equipamento extends JFrame {
                            if(nomeTipo.equals(jRadioButtonEquipamento.getText())){
                                Equipamento e = new Equipamento();
                                e.setNome(jTextNome.getText());
-                               e.setDataUltimaExpesao(LocalDate.now().toString());
+                               e.setDataUltimaExpesao(Date.valueOf(LocalDate.now()));
                                //InserirDados.inserirEquipamento(e,setor.getId(),empresa.getId());
                                 if(setor.equals(empresa)){
                                    JOptionPane.showMessageDialog(null,"Voce nao pode salvar um equipamento no setor: \n"+setor.getNome(),"Setor Invalido",JOptionPane.ERROR_MESSAGE);

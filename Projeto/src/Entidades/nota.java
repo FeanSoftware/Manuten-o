@@ -5,24 +5,41 @@
  */
 package Entidades;
 
-import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Julio Cesar
  */
 public class Nota {
+  private Usuario user;
+
+    public Usuario getUser() {
+        return user;
+    }
+
+    public void setUser(Usuario user) {
+        this.user = user;
+    }
+    private int tipo;
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
     private String informacoes;
-    private Date dateInspecao;
-    private Date dateOcorencia;
+    private String dateInspecao;
+    private String dateOcorencia;
     private String nomeResponsavel;
-    private String nomeResponsavelManutençao;
     private Equipamento equipamento;
     private String UrlImagem;
+
     
    
     public String getInformacoes() {
@@ -33,20 +50,20 @@ public class Nota {
         this.informacoes = informacoes;
     }
 
-    public Date getDateInspecao() {
+    public String getDateInspecao() {
         return dateInspecao;
     }
 
     public void setDateInspecao(Date dateInspecao) {
-        this.dateInspecao =dateInspecao;
+        this.dateInspecao =formataData(dateInspecao);
     }
 
-    public Date getDateOcorencia() {
+    public String getDateOcorencia() {
         return dateOcorencia;
     }
 
     public void setDateOcorencia(Date dateOcorencia) {
-        this.dateOcorencia = dateOcorencia;
+        this.dateOcorencia = formataData(dateOcorencia);
     }
 
     public String getNomeResponsavel() {
@@ -57,13 +74,9 @@ public class Nota {
         this.nomeResponsavel = nomeResponsavel;
     }
 
-    public String getNomeResponsavelManutençao() {
-        return nomeResponsavelManutençao;
-    }
+    
 
-    public void setNomeResponsavelManutençao(String nomeResponsavelManutençao) {
-        this.nomeResponsavelManutençao = nomeResponsavelManutençao;
-    }
+    
 
     public Equipamento getEquipamento() {
         return equipamento;
@@ -80,5 +93,12 @@ public class Nota {
     public void setUrlImagem(String UrlImagem) {
         this.UrlImagem = UrlImagem;
     }
+
+    private String formataData(Date data){
+         SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            return formato.format(data);
+    }
+   
     
 }

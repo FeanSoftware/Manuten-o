@@ -3,6 +3,7 @@ package banco;
 
 
 import Entidades.Equipamento;
+import Entidades.Nota;
 import Entidades.Setor;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ public class InserirDados {
 
     
     private static int iserirDados(String dados) {
+        System.out.println(dados);
         java.sql.Connection con = null;
         int id = 0;
         PreparedStatement pstmt = null;
@@ -92,6 +94,27 @@ System.out.println(ex.getMessage());
        String sql = "local(referenciaLocal, nomeLocal, idEmpresa) VALUES ('"+id+"','"+e.getNome()+"','"+idEmpresa+"');";
        int idTranzaçao = iserirDados(sql);
        JOptionPane.showMessageDialog(null, "Setor "+idTranzaçao+" Salvo com sucesso","Salvo com sucesso",JOptionPane.OK_OPTION);
+    }
+
+    public static int inserirInspecao(Nota newNota) {
+        String sql = "inspecao(idEquipamento,dataInspecao,dataEfetuadaInspecao, motivoInspecao, idUsuario, idEmpresa) "
+                + "VALUES ('"+newNota.getEquipamento().getId()+"',"
+                + "'"+newNota.getDateOcorencia()+"',"
+                + "'"+newNota.getDateInspecao()+"',"
+                + "'"+newNota.getInformacoes()+"',"
+                + "'"+newNota.getUser().getId()+"',"
+                + "'"+newNota.getEquipamento().getEmpresa().getId()+"')";
+       int idTranzaçao = iserirDados(sql);
+        sql = "equipamentos SET dataUltimaInspecao = '"+newNota.getDateInspecao()+"' WHERE idEquipamentos = "+newNota.getEquipamento().getId()+"";
+        attDados(sql);
+       JOptionPane.showMessageDialog(null, "Inspeçao "+idTranzaçao+" Salvo com sucesso","Salvo com sucesso",JOptionPane.OK_OPTION);
+       return idTranzaçao;
+    }
+
+    public static void inserirEmpresa(Setor empresa) {
+         String sql= "empresa(nomeEmpresa, cnpjEmpresa) VALUES ('"+empresa.getNome()+"','"+empresa.getCNPJ()+"')";
+         iserirDados(sql);
+         JOptionPane.showMessageDialog(null, "Dados salvo com sucesso","Sucesso",JOptionPane.OK_OPTION);
     }
 
    

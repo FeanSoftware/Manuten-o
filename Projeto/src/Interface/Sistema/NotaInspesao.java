@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Interface.Sistema;
 
 import Entidades.*;
+import Interface.Sistema.Setor.MenuSetor;
+import banco.InserirDados;
 import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,15 +11,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.util.converter.LocalDateStringConverter;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -37,26 +31,31 @@ public class NotaInspesao extends JFrame {
 
     private Equipamento equipamento;
     private String UrlMidia;
+    private Usuario user;
+    private int tipo;
 
     public NotaInspesao() {
         initComponents();
         centralizarComponente();
     }
 
-    public NotaInspesao(Equipamento equipamento) {
+    public NotaInspesao(Equipamento equipamento, Usuario user,int tipo) {
+        this.user = user;
+        this.tipo = tipo;
         initComponents();
         this.equipamento = equipamento;
-        centralizarComponente();
+        this.jTextFieldResponsavel.setText(user.getName());
+      centralizarComponente();
     }
 
-    private static void copiandoArquivo(String saidaCaminho, String inicio, String i) {
+    private static void copiandoArquivo(String origem, String saida, int idMidia) {
         //funçao responsavel por copiar os arquivos da pasta original e tranfirila para a pasta padrao do jogo
-        Path novo = Paths.get(saidaCaminho);
-        Path cAbsoluto = Paths.get(inicio);
+        Path novo = Paths.get(saida);
+        Path cAbsoluto = Paths.get(origem);
         try {
             Files.createDirectories(novo);
             if (Files.isDirectory(novo)) {
-                Files.copy(cAbsoluto, Paths.get(novo + "\\" + i), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(cAbsoluto, Paths.get(novo + "\\" + idMidia), StandardCopyOption.REPLACE_EXISTING);
 
             } else {
                 JOptionPane.showMessageDialog(null, "Diretório Não Criado", "Criação do Novo Diretório", JOptionPane.INFORMATION_MESSAGE);
@@ -68,7 +67,7 @@ public class NotaInspesao extends JFrame {
 
     private void getImagem() {
         JFileChooser fc = new JFileChooser();
-        BufferedImage imagem = null;
+        BufferedImage imagem ;
         //  String user;
         int id = 0;
         int valido = fc.showOpenDialog(jPanelPrincipal);
@@ -92,6 +91,7 @@ public class NotaInspesao extends JFrame {
         // DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         Nota nota = new Nota();
+        nota.setTipo(tipo);
         SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
         // System.out.println(formato.format(jDateChooserManutencao.getDate()));
         nota.setDateInspecao(jDateChooserManutencao.getDate());
@@ -99,23 +99,29 @@ public class NotaInspesao extends JFrame {
         nota.setEquipamento(equipamento);
         nota.setInformacoes(jTextPaneInformacoes.getText());
         nota.setNomeResponsavel(jTextFieldResponsavel.getText());
-        nota.setNomeResponsavelManutençao(jTextFieldResponsavelManutençao.getText());
+       // nota.setNomeResponsavelManutençao(jTextFieldResponsavelManutençao.getText());
         nota.setUrlImagem(UrlMidia);
+        nota.setUser(user);
 
         //LocalDate d = LocalDate.parse(formato.format(nota.getDateInspecao()));
         if (nota.getDateOcorencia() != null && nota.getDateInspecao() != null) {
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            LocalDate data = LocalDate.parse(formato.format(nota.getDateOcorencia()), format);
-            LocalDate data2 = LocalDate.parse(formato.format(nota.getDateInspecao()), format);
+            LocalDate data = LocalDate.parse(nota.getDateOcorencia(), format);
+            LocalDate data2 = LocalDate.parse(nota.getDateInspecao(), format);
 
             if (ChronoUnit.DAYS.between(data, data2) > -1) {
 
-                if (!jTextFieldResponsavel.getText().equals("") && !jTextFieldResponsavelManutençao.getText().equals("") && !jTextPaneInformacoes.getText().equals("")) {
+                if (!jTextFieldResponsavel.getText().equals("") && !jTextPaneInformacoes.getText().equals("")) {
                     if (UrlMidia != null) {
+                        int id = InserirDados.inserirInspecao(nota);
+                        copiandoArquivo(UrlMidia, Internacionalização.getLinkSalvarMidia(), id);
+                        MenuSetor.atualizarArvore(user);
                         return nota;
+
                     } else {
                         if (JOptionPane.showConfirmDialog(null, "Voce nao upou uma midia\nDeseja continuar", "Erro", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                            return nota;
+                            InserirDados.inserirInspecao(nota);
+                            MenuSetor.atualizarArvore(user);
                         }
                     }
                 } else {
@@ -125,18 +131,13 @@ public class NotaInspesao extends JFrame {
                 JOptionPane.showMessageDialog(null, "Verifique as datas", "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
-            
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Verifique as datas", "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return nota;
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -145,7 +146,6 @@ public class NotaInspesao extends JFrame {
         jDateChooserOcorrencia = new com.toedter.calendar.JDateChooser();
         jDateChooserManutencao = new com.toedter.calendar.JDateChooser();
         jTextFieldResponsavel = new javax.swing.JTextField();
-        jTextFieldResponsavelManutençao = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextPaneInformacoes = new javax.swing.JTextPane();
         jButtonSalvar = new javax.swing.JButton();
@@ -169,11 +169,9 @@ public class NotaInspesao extends JFrame {
         jDateChooserManutencao.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Data da manutenção"));
         jDateChooserManutencao.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
+        jTextFieldResponsavel.setEditable(false);
         jTextFieldResponsavel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jTextFieldResponsavel.setBorder(javax.swing.BorderFactory.createTitledBorder("Responsavel"));
-
-        jTextFieldResponsavelManutençao.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jTextFieldResponsavelManutençao.setBorder(javax.swing.BorderFactory.createTitledBorder("Responsavel pela manutençao"));
 
         jTextPaneInformacoes.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Descriçao do serviço", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         jTextPaneInformacoes.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -202,11 +200,15 @@ public class NotaInspesao extends JFrame {
         jPanelMidia.setLayout(jPanelMidiaLayout);
         jPanelMidiaLayout.setHorizontalGroup(
             jPanelMidiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabelImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 296, Short.MAX_VALUE)
+            .addGroup(jPanelMidiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabelImagen, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))
         );
         jPanelMidiaLayout.setVerticalGroup(
             jPanelMidiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabelImagen, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+            .addGap(0, 203, Short.MAX_VALUE)
+            .addGroup(jPanelMidiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabelImagen, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE))
         );
 
         jButtonUpMidia.setText("Upload midia");
@@ -221,20 +223,24 @@ public class NotaInspesao extends JFrame {
         jPanelPrincipalLayout.setHorizontalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldResponsavelManutençao, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextFieldResponsavel)
                     .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                        .addComponent(jDateChooserOcorrencia, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooserManutencao, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldResponsavel)
+                            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                                .addComponent(jDateChooserOcorrencia, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jDateChooserManutencao, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                                .addComponent(jPanelMidia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(4, 4, 4))
+                            .addComponent(jButtonUpMidia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanelMidia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonUpMidia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -251,10 +257,8 @@ public class NotaInspesao extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextFieldResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldResponsavelManutençao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonUpMidia)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jPanelMidia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -281,12 +285,11 @@ public class NotaInspesao extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonUpMidiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpMidiaActionPerformed
-        getImagem();        // TODO add your handling code here:
+        getImagem();        
 
     }//GEN-LAST:event_jButtonUpMidiaActionPerformed
 
     private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
-        // TODO add your handling code here:
 
         if (JOptionPane.showConfirmDialog(null, "Deseja sair do equipamento: " + equipamento.getNome(), "Deseja sair", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             this.dispose();
@@ -294,20 +297,16 @@ public class NotaInspesao extends JFrame {
     }//GEN-LAST:event_jButtonSairActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        // TODO add your handling code here:
+    
+        if (JOptionPane.showConfirmDialog(null, "Salvar a inspeçao do equipamento: " + equipamento.getNome(), "Salvar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            getNewNota();
+            this.dispose();
+        }
 
-        getNewNota();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+     
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -346,7 +345,6 @@ public class NotaInspesao extends JFrame {
     private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextFieldResponsavel;
-    private javax.swing.JTextField jTextFieldResponsavelManutençao;
     private javax.swing.JTextPane jTextPaneInformacoes;
     // End of variables declaration//GEN-END:variables
 }

@@ -30,7 +30,7 @@ public class ResgatarDados {
         return wrs;
     }
 
-    private static List<Equipamento> getListE(int idLocal) {
+    private static List<Equipamento> getListE(int idLocal,Setor Empresa) {
         Equipamento e;
         List<Equipamento> l = new LinkedList<>();
         CachedRowSet rs = null;
@@ -45,7 +45,8 @@ public class ResgatarDados {
                 e = new Equipamento();
                 e.setNome(rs.getString("nomeEquipamento"));
                 e.setId(rs.getInt("idEquipamentos"));
-                e.setDataUltimaExpesao(String.valueOf(rs.getDate("dataUltimaInspecao")));
+                e.setDataUltimaExpesao(rs.getDate("dataUltimaInspecao"));
+                e.setEmpresa(Empresa);
                 l.add(e);
             }
 
@@ -55,11 +56,11 @@ public class ResgatarDados {
         return l;
     }
 
-    private static List<Setor> getListsub(int idSetor,int idEmpresa) {
+    private static List<Setor> getListsub(int idSetor,Setor Empresa) {
         Setor e = new Setor();
         List<Setor> l = new LinkedList<>();
         CachedRowSet rs = null;
-        String sql = "* FROM `local` WHERE `referenciaLocal` = "+idSetor+" AND idEmpresa = "+idEmpresa+";";
+        String sql = "* FROM `local` WHERE `referenciaLocal` = "+idSetor+" AND idEmpresa = "+Empresa.getId()+";";
         Color c = null;
         try {
             rs = ResgatarDado(sql);
@@ -67,8 +68,8 @@ public class ResgatarDados {
             while (rs.next()) {
                 e.setNome(rs.getString("nomeLocal"));
                 e.setId(rs.getInt("idLocal"));
-                e.setEquipamento(getListE(rs.getInt("idLocal")));
-                e.setSubSetor(getListsub(rs.getInt("idLocal"),idEmpresa));
+                e.setEquipamento(getListE(rs.getInt("idLocal"),Empresa));
+                e.setSubSetor(getListsub(rs.getInt("idLocal"),Empresa));
                for (Equipamento eq : e.getEquipamento()) {
                    // System.err.println(eq.getCor() + eq.getNome());
                    if (eq.getCor() == Color.RED) {
@@ -142,10 +143,10 @@ public class ResgatarDados {
         return l;
     }
 */
-    public static List<Setor> getAllSetoresEquipamentos(int id) {
+        public static List<Setor> getAllSetoresEquipamentos(Setor empresa) {
         
         
-        return getListsub(0,id);
+        return getListsub(0,empresa);
 
     }
 
