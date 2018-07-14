@@ -5,9 +5,7 @@
  */
 package Entidades;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,10 +13,11 @@ import java.util.List;
  * @author Julio Cesar
  */
 public class Atrasados {
-    private static final  List LIST= new ArrayList<>();
-    
-    public static void addAtrasado(int e){
+
+    private static final List LIST = new ArrayList<>();
+
+    public static void addAtrasado(int e) {
         LIST.add(e);
-        
+
     }
 }

@@ -4,7 +4,6 @@ import Interface.Sistema.NotaInspesao;
 import banco.ResgatarDados;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Date;
 import java.util.List;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
@@ -51,9 +50,9 @@ public class JTree extends DefaultTreeCellRenderer {
                     //System.out.println(currentNode.getId());
                     System.out.println(currentNode.getColor());
                     if (currentNode.getTipo() == Internacionalização.getTipoEquipamento()) {
-                        if (JOptionPane.showConfirmDialog(null, "Confirmar a aberturar de inspeçao para equipamento: " + currentNode.getNome()+
-                                "\n Ultima Inspeção: "+Internacionalização.formataDataBrasil(currentNode.getData()), "Confirmar abertura", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                            NotaInspesao n = new NotaInspesao(currentNode.getE(), user,Internacionalização.getIdInspNoraml());
+                        if (JOptionPane.showConfirmDialog(null, "Confirmar a aberturar de inspeçao para equipamento: " + currentNode.getNome()
+                                + "\n Ultima Inspeção: " + Internacionalização.formataDataBrasil(currentNode.getData()), "Confirmar abertura", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            NotaInspesao n = new NotaInspesao(currentNode.getE(), user, Internacionalização.getIdInspNoraml());
                             n.setVisible(true);
                             // desktop.add(n);
                         }

@@ -10,50 +10,35 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 public class CellRender extends DefaultTreeCellRenderer {
-    
-  
-    String iconeEquipamentoRed= System.getProperty("user.dir") + "\\src\\Icones\\Arvore\\equipamentoRed";
-    String iconeEquipamento = System.getProperty("user.dir") + "\\src\\Icones\\Arvore\\equipamento";
-    String iconeSetorRed=System.getProperty("user.dir") + "\\src\\Icones\\Arvore\\setorRed";
-    String iconeSetor=System.getProperty("user.dir") + "\\src\\Icones\\Arvore\\setor";
-    // Sobrescreve este método para obter os efeitos desejados
 
     @Override
     public Component getTreeCellRendererComponent(javax.swing.JTree tree, Object value,
-      boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-      super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
-      
-      TreeNode node = (TreeNode) value;
-      // System.out.println(node.getColor() + node.getNome());
-      setForeground(node.getColor());
-       // System.out.println(node.getNome()+node.getColor());
-        if (node.getColor() == Internacionalização.getCorAtencao()) {    
+            boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+        super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+
+        TreeNode node = (TreeNode) value;
+        // System.out.println(node.getColor() + node.getNome());
+        setForeground(node.getColor());
+        // System.out.println(node.getNome()+node.getColor());
+        if (node.getColor() == Internacionalização.getCorAtencao()) {
             Atrasados.addAtrasado(node.getId());
-            if(node.getTipo() == Internacionalização.getTipoEquipamento()){
-                setIcon(new ImageIcon(iconeEquipamentoRed));
-                
-            }else{
-                setIcon(new ImageIcon(iconeSetorRed));
+            if (node.getTipo() == Internacionalização.getTipoEquipamento()) {
+                setIcon(new ImageIcon(Internacionalização.getIconeEquipamentoRed()));
+
+            } else {
+                setIcon(new ImageIcon(Internacionalização.getIconeSetorRed()));
             }
-        }else{
-            if(node.getTipo() == Internacionalização.getTipoEquipamento()){
-                setIcon(new ImageIcon(iconeEquipamento));
-                
-            }else{
-                setIcon(new ImageIcon(iconeSetor));
+        } else {
+            if (node.getTipo() == Internacionalização.getTipoEquipamento()) {
+                setIcon(new ImageIcon(Internacionalização.getIconeEquipamento()));
+
+            } else {
+                setIcon(new ImageIcon(Internacionalização.getIconeSetor()));
             }
         }
-     
-         
-      
-      
 
- 
-
-      return this;
+        return this;
 
     }
 
- 
-    
 }

@@ -20,6 +20,12 @@ public final class TreeNode extends javax.swing.tree.DefaultMutableTreeNode {
     Color Color;
     int Tipo;
     private Equipamento e;
+    
+    TreeNode(String nome) {
+        super(nome);
+        setNome(nome);
+        
+    }
 
     public Equipamento getE() {
         return e;
@@ -36,7 +42,7 @@ public final class TreeNode extends javax.swing.tree.DefaultMutableTreeNode {
     public void setTipo(int Tipo) {
         this.Tipo = Tipo;
     }
-    
+
     public Color getColor() {
         return Color;
     }
@@ -45,11 +51,6 @@ public final class TreeNode extends javax.swing.tree.DefaultMutableTreeNode {
         this.Color = Color;
     }
 
-    TreeNode(String nome) {
-        super(nome);
-        setNome(nome);
-
-    }
 
     public int getId() {
         return id;

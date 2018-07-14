@@ -2,18 +2,13 @@ package Entidades;
 
 import java.io.Serializable;
 
-public class ConfigBanco implements Serializable{
+public class ConfigBanco implements Serializable {
 
     private String driverName;
-
     private String serverName;
-
     private String mydatabase;
-
     private String url;
-
     private String username;
-
     private String password;
 
     public ConfigBanco(String driverName, String serverName, String mydatabase, String url, String username, String password) {
@@ -24,12 +19,6 @@ public class ConfigBanco implements Serializable{
         this.username = username;
         this.password = password;
     }
-
-    public ConfigBanco() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
 
     public String getDriverName() {
         return driverName;

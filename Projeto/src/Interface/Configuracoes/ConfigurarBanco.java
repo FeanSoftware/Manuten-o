@@ -36,10 +36,14 @@ public class ConfigurarBanco extends JFrame {
      * Creates new form ConfigurarBanco
      */
     public ConfigurarBanco() {
-        centralizarComponente();
+        try {
+            centralizarComponente();
         initComponents();
         setItensTela(leitor(System.getProperty("user.dir"), "ConfigBanco.bin"));
-        testarConcecao();
+       testarConcecao();
+        } catch (Exception e) {
+        }
+        
         
     }
 
@@ -377,13 +381,17 @@ public class ConfigurarBanco extends JFrame {
     }
 
     private void setItensTela(ConfigBanco configBanco) {
-        jTextDriverName.setText(configBanco.getDriverName());
+        try {
+            jTextDriverName.setText(configBanco.getDriverName());
         jTextNameDB.setText(configBanco.getMydatabase());
         jTextServerName.setText(configBanco.getServerName());
         jTextURLPadrao.setText(configBanco.getUrl());
         jTextUserName.setText(configBanco.getUsername());
         jPasswordPasswordDB.setText(configBanco.getPassword());
         setURLPrincipal();
+        } catch (Exception e) {
+        }
+        
 
     }
 

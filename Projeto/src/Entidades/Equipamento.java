@@ -6,11 +6,8 @@
 package Entidades;
 
 import java.awt.Color;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -32,7 +29,6 @@ public class Equipamento {
     public void setEmpresa(Setor Empresa) {
         this.Empresa = Empresa;
     }
-    
 
     public Color getCor() {
         return cor;
@@ -64,22 +60,22 @@ public class Equipamento {
 
     public void setDataUltimaExpesao(Date dataUltimaExpesao) {
 
-          LocalDate hoje = LocalDate.now();
+        LocalDate hoje = LocalDate.now();
         // Cria um Objeto LocalDate com a data 26/09/2020.
-     //   System.out.println(nome+dataUltimaExpesao);
-        String p = Internacionalização.formataDataUSA(dataUltimaExpesao).replace("/","-");
-      String[] s = p.split("-");
-       // System.out.println(s[0] );
-      //  System.out.println(s[1] );
-      //  System.out.println(s[2] );
-      
-      LocalDate outraData = LocalDate.of(Integer.parseInt(s[0]),Integer.parseInt( s[1]),Integer.parseInt( s[2]));  
+        //   System.out.println(nome+dataUltimaExpesao);
+        String p = Internacionalização.formataDataUSA(dataUltimaExpesao).replace("/", "-");
+        String[] s = p.split("-");
+        // System.out.println(s[0] );
+        //  System.out.println(s[1] );
+        //  System.out.println(s[2] );
+
+        LocalDate outraData = LocalDate.of(Integer.parseInt(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2]));
         // Calcula a diferença de dias entre as duas datas
-        long diferencaEmDias = ChronoUnit.DAYS.between(outraData, hoje);   
-      //  System.out.println(diferencaEmDias);
-        if (diferencaEmDias  > 18) {
+        long diferencaEmDias = ChronoUnit.DAYS.between(outraData, hoje);
+        //  System.out.println(diferencaEmDias);
+        if (diferencaEmDias > 18) {
             cor = Internacionalização.getCorAtencao();
-           // System.out.println(diferencaEmDias);
+            // System.out.println(diferencaEmDias);
         } else {
             cor = Internacionalização.getCorPadrao();
         }

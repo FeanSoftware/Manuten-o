@@ -9,9 +9,8 @@ package Entidades;
  *
  * @author Julio Cesar
  */
-public class JComboBox extends javax.swing.JComboBox{
-    
-    
+public class JComboBox extends javax.swing.JComboBox {
+
     int id;
     String nome;
 
@@ -31,8 +30,4 @@ public class JComboBox extends javax.swing.JComboBox{
         this.nome = nome;
     }
 
-    
-    
-    
-    
 }

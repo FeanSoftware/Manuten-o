@@ -12,6 +12,7 @@ import java.net.URL;
  * @author Julio Cesar
  */
 public class JPanel extends javax.swing.JPanel {
+
     private static Image load(String url) {
         try {
             final Toolkit tk = Toolkit.getDefaultToolkit();
@@ -44,7 +45,6 @@ public class JPanel extends javax.swing.JPanel {
         super();
     }
 
-
     @Override
     public void paintComponent(Graphics g) {
 
@@ -54,7 +54,7 @@ public class JPanel extends javax.swing.JPanel {
         gr.dispose();
     }
 
-    public  void alterarImagem(String fundo) {
+    public void alterarImagem(String fundo) {
         this.img = load(fundo);
         // this.img = novaimagem;
         this.revalidate(); // não lembro se repaint() serve aqui

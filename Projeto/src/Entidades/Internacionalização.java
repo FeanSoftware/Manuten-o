@@ -5,10 +5,17 @@
  */
 package Entidades;
 
+import Interface.Configuracoes.ConfigurarBanco;
 import java.awt.Color;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,9 +23,89 @@ import java.util.Date;
  */
 public class Internacionalização {
 
-    private static int idSemOcorencia = 0;
-     private static int idInspNoraml = 1;
-    private static int idManuGeral = 2;
+    private static Integer idSemOcorencia;
+    private static Integer idInspNoraml;
+    private static Integer idManuGeral;
+    private static String nomeEmpresa;
+    private static Color corAtencao;
+    private static Color corPadrao;
+    private static Color corNomeEmpresa;
+    private static String LinkSalvarMidia;
+    private static String LinkImagenFundo;
+    private static Integer tipoSetor;
+    private static Integer tipoEquipamento;
+    private static String formatoDataBrasil;
+    private static String formatoDataUSA;
+    private static String iconeEquipamentoRed;
+    private static String iconeEquipamento;
+    private static String iconeSetorRed;
+    private static String iconeSetor;
+
+    public static String getFormatoDataBrasil() {
+        return formatoDataBrasil;
+    }
+
+    public static void setFormatoDataBrasil(String formatoDataBrasil) {
+        Internacionalização.formatoDataBrasil = formatoDataBrasil;
+    }
+
+    public static String getFormatoDataUSA() {
+        return formatoDataUSA;
+    }
+
+    public static void setFormatoDataUSA(String formatoDataUSA) {
+        Internacionalização.formatoDataUSA = formatoDataUSA;
+    }
+
+    public static ConfigInternacionalização leitor(String path, String nomeArquivo) {
+        ConfigInternacionalização config = null;
+
+        ObjectInputStream input = null;
+        try {
+            input = new ObjectInputStream(new FileInputStream(path + "/" + nomeArquivo));
+
+            while (true) {
+                config = (ConfigInternacionalização) input.readObject();
+
+            }
+        } catch (EOFException endOfFileException) {
+            return config;
+        } catch (ClassNotFoundException classNotFoundException) {
+            JOptionPane.showMessageDialog(null, "Unable to create object.");
+        } catch (IOException ex) {
+
+            JOptionPane.showMessageDialog(null, "Erro ao abrir arquivo \n" + path + "\n" + ex.getMessage());
+        }
+
+        try {
+            input.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ConfigurarBanco.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return config;
+    }
+
+    public static void initComponet() {
+        ConfigInternacionalização config = leitor(System.getProperty("user.dir"), "Inter.bin");
+        setCorAtencao(config.getCorAtencao());
+        setCorNomeEmpresa(config.getCorNomeEmpresa());
+        setCorPadrao(config.getCorPadrao());
+        setIdInspNoraml(config.getIdInspNoraml());
+        setIdManuGeral(config.getIdManuGeral());
+        setIdSemOcorencia(config.getIdSemOcorencia());
+        setLinkImagenFundo(config.getLinkImagenFundo());
+        setLinkSalvarMidia(config.getLinkSalvarMidia());
+        setNomeEmpresa(config.getNomeEmpresa());
+        setTipoEquipamento(config.getTipoEquipamento());
+        setTipoSetor(config.getTipoSetor());
+        setFormatoDataUSA(config.getFormatoDataUSA());
+        setFormatoDataBrasil(config.getFormatoDataBrasil());
+        setIconeEquipamento(config.getIconeEquipamento());
+        setIconeEquipamentoRed(config.getIconeEquipamentoRed());
+        setIconeSetorRed(config.getIconeSetorRed());
+        setIconeSetor(config.getIconeSetor());
+
+    }
 
     public static int getIdInspNoraml() {
         return idInspNoraml;
@@ -27,16 +114,6 @@ public class Internacionalização {
     public static void setIdInspNoraml(int idInspNoraml) {
         Internacionalização.idInspNoraml = idInspNoraml;
     }
-    
-    private static String nomeEmpresa = "Nome do Grupo";
-    private static Color corAtencao = Color.RED;
-    private static Color corPadrao = Color.BLACK;
-    private static Color corNomeEmpresa = Color.green;
-
-    private static String LinkSalvarMidia = System.getProperty("user.dir") + "\\Midias";
-    private static String LinkImagenFundo = "C:\\a.jpg";
-    private static int tipoSetor = 1;
-    private static int tipoEquipamento = 2;
 
     public static int getIdSemOcorencia() {
         return idSemOcorencia;
@@ -122,18 +199,48 @@ public class Internacionalização {
         Internacionalização.nomeEmpresa = nomeEmpresa;
     }
 
-    public static String formataDataUSA(Date data){
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            return formato.format(data);
+    public static String formataDataUSA(Date data) {
+        SimpleDateFormat formato = new SimpleDateFormat(formatoDataUSA);
+        //DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        return formato.format(data);
     }
-    public static String formataDataBrasil(Date data){
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return formato.format(data);
-    }
-    public Internacionalização() {
 
+    public static String formataDataBrasil(Date data) {
+        SimpleDateFormat formato = new SimpleDateFormat(formatoDataBrasil);
+        //  DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return formato.format(data);
+    }
+
+    public static String getIconeEquipamentoRed() {
+        return iconeEquipamentoRed;
+    }
+
+    public static void setIconeEquipamentoRed(String iconeEquipamentoRed) {
+        Internacionalização.iconeEquipamentoRed = iconeEquipamentoRed;
+    }
+
+    public static String getIconeEquipamento() {
+        return iconeEquipamento;
+    }
+
+    public static void setIconeEquipamento(String iconeEquipamento) {
+        Internacionalização.iconeEquipamento = iconeEquipamento;
+    }
+
+    public static String getIconeSetorRed() {
+        return iconeSetorRed;
+    }
+
+    public static void setIconeSetorRed(String iconeSetorRed) {
+        Internacionalização.iconeSetorRed = iconeSetorRed;
+    }
+
+    public static String getIconeSetor() {
+        return iconeSetor;
+    }
+
+    public static void setIconeSetor(String iconeSetor) {
+        Internacionalização.iconeSetor = iconeSetor;
     }
 
 }

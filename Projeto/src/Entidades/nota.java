@@ -5,9 +5,6 @@
  */
 package Entidades;
 
-
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -15,7 +12,15 @@ import java.util.Date;
  * @author Julio Cesar
  */
 public class Nota {
-  private Usuario user;
+
+    private Usuario user;
+    private int tipo;
+    private String informacoes;
+    private String dateInspecao;
+    private String dateOcorencia;
+    private String nomeResponsavel;
+    private Equipamento equipamento;
+    private String UrlImagem;
 
     public Usuario getUser() {
         return user;
@@ -24,7 +29,6 @@ public class Nota {
     public void setUser(Usuario user) {
         this.user = user;
     }
-    private int tipo;
 
     public int getTipo() {
         return tipo;
@@ -33,15 +37,7 @@ public class Nota {
     public void setTipo(int tipo) {
         this.tipo = tipo;
     }
-    private String informacoes;
-    private String dateInspecao;
-    private String dateOcorencia;
-    private String nomeResponsavel;
-    private Equipamento equipamento;
-    private String UrlImagem;
 
-    
-   
     public String getInformacoes() {
         return informacoes;
     }
@@ -55,7 +51,7 @@ public class Nota {
     }
 
     public void setDateInspecao(Date dateInspecao) {
-        this.dateInspecao =formataData(dateInspecao);
+        this.dateInspecao = Internacionalização.formataDataUSA(dateInspecao);
     }
 
     public String getDateOcorencia() {
@@ -63,7 +59,7 @@ public class Nota {
     }
 
     public void setDateOcorencia(Date dateOcorencia) {
-        this.dateOcorencia = formataData(dateOcorencia);
+        this.dateOcorencia = Internacionalização.formataDataUSA(dateOcorencia);
     }
 
     public String getNomeResponsavel() {
@@ -73,10 +69,6 @@ public class Nota {
     public void setNomeResponsavel(String nomeResponsavel) {
         this.nomeResponsavel = nomeResponsavel;
     }
-
-    
-
-    
 
     public Equipamento getEquipamento() {
         return equipamento;
@@ -94,11 +86,6 @@ public class Nota {
         this.UrlImagem = UrlImagem;
     }
 
-    private String formataData(Date data){
-         SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            return formato.format(data);
-    }
-   
     
+
 }

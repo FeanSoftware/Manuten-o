@@ -3,6 +3,7 @@ package Interface.Sistema.Setor;
 import Entidades.*;
 import Interface.Cadastro.Empresa;
 import Interface.Cadastro.Setor_Equipamento;
+import Interface.Configuracoes.ConfigParametros;
 import Interface.Configuracoes.ConfigurarBanco;
 import Interface.Sistema.NotaInspesao;
 import Interface.Sistema.SeletorEmpresa;
@@ -31,7 +32,9 @@ private static  JTree tree;
          user = new Usuario();
          user.setId(1);
          user.setName("JCESAR");
+         Internacionalização.initComponet();
         initComponents();
+        
     this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         /*
     DefaultTreeModel model = (DefaultTreeModel)jTree1.getModel();
@@ -51,7 +54,6 @@ model.reload(root);
         jPanel1 = new JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new JTree().get(user);
-        jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
@@ -65,6 +67,7 @@ model.reload(root);
         MenuCadastoSetorEquipamento = new javax.swing.JMenuItem();
         menuConfigCadEmpresa = new javax.swing.JMenuItem();
         ConfigConexaoDB = new javax.swing.JMenuItem();
+        ConfigConfigParametros = new javax.swing.JMenuItem();
         sobreMenu = new javax.swing.JMenu();
         Sair = new javax.swing.JMenu();
 
@@ -80,29 +83,16 @@ model.reload(root);
 
         jScrollPane1.setViewportView(jTree1);
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1008, Short.MAX_VALUE)
-        );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(1008, 1008, 1008))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
         );
 
@@ -174,6 +164,14 @@ model.reload(root);
             }
         });
         config.add(ConfigConexaoDB);
+
+        ConfigConfigParametros.setText("Parametros");
+        ConfigConfigParametros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConfigConfigParametrosActionPerformed(evt);
+            }
+        });
+        config.add(ConfigConfigParametros);
 
         jMenuBar2.add(config);
 
@@ -262,6 +260,11 @@ model.reload(root);
                         }
     }//GEN-LAST:event_MenuRotinaLancarManuGeralActionPerformed
 
+    private void ConfigConfigParametrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigConfigParametrosActionPerformed
+        // TODO add your handling code here:
+        new ConfigParametros().setVisible(true);
+    }//GEN-LAST:event_ConfigConfigParametrosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -300,13 +303,13 @@ model.reload(root);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu Cadastro;
     private javax.swing.JMenuItem ConfigConexaoDB;
+    private javax.swing.JMenuItem ConfigConfigParametros;
     private javax.swing.JMenuItem MenuAtualizarEquipamentos;
     private javax.swing.JMenuItem MenuCadastoSetorEquipamento;
     private javax.swing.JMenuItem MenuRotinaLancarManuGeral;
     private javax.swing.JMenuItem MenuRotinaLancarSemOco;
     private javax.swing.JMenu Sair;
     private javax.swing.JMenu config;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu6;

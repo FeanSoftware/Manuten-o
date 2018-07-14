@@ -15,7 +15,6 @@ public class JFrame extends javax.swing.JFrame {
     private int x = 0;
     private int y = 0;
 
-
     public JFrame() {
         //centralizarComponente();
     }
@@ -24,6 +23,7 @@ public class JFrame extends javax.swing.JFrame {
         this.img = ImageIO.read(new File(urlImg));
 
     }
+
     public void centralizarComponente() {
         Dimension ds = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension dw = getSize();

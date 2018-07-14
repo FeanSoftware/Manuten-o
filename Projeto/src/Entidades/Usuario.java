@@ -10,16 +10,16 @@ package Entidades;
  * @author Julio Cesar
  */
 public class Usuario {
+
     private int id;
     private String name;
 
     public void setName(String name) {
         this.name = name;
     }
-    
 
     public int getId() {
-       return id;
+        return id;
     }
 
     public void setId(int id) {
@@ -30,6 +30,5 @@ public class Usuario {
         return name;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
 }

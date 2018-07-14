@@ -53,10 +53,7 @@ public class Setor {
     }
 
     public void setEquipamento(List<Equipamento> equipamento) {
-         this.equipamento = equipamento;
-       
-
-       
+        this.equipamento = equipamento;
 
     }
 
@@ -65,7 +62,7 @@ public class Setor {
     }
 
     public void setSubSetor(List<Setor> subSetor) {
-        
+
         this.subSetor = subSetor;
 
     }
@@ -80,6 +77,4 @@ public class Setor {
         return Nome;
     }
 
-  
-    
 }
